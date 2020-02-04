@@ -30,6 +30,24 @@ namespace CS321_W4D1_BookAPI.Services
                 .Include(b => b.Author)
                 .SingleOrDefault(b => b.Id == id);
         }
+        public IEnumerable<Book> GetBooksForPublisher(int publisherId)
+        {
+            return _bookContext.Books
+                .Include(b => b.Author)
+                .Include(b => b.Publisher)
+                .Where(b => publisherId == b.PublisherId)
+                .ToList();
+
+        }
+
+        public IEnumerable<Book> GetBooksForAuthor(int authorId)
+        {
+            return _bookContext.Books
+                .Include(b => b.Publisher)
+                .Include(b => b.Author)
+                .Where(b => b.AuthorId == authorId)
+                .ToList();
+        }
 
         public IEnumerable<Book> GetAll()
         {
@@ -70,6 +88,5 @@ namespace CS321_W4D1_BookAPI.Services
             _bookContext.SaveChanges();
         }
 
-        // TODO: implement GetBooksForAuthor() method
     }
 }
