@@ -12,15 +12,24 @@ namespace CS321_W4D1_BookAPI.ApiModels
         {
             return new AuthorModel
             {
-                // TODO: map Author properties to corresponding AuthorModel properties
+                //map Author properties to corresponding AuthorModel properties
+                Id = author.Id,
+                BirthDate = author.BirthDate,
+                FirstName = author.FirstName,
+                LastName = author.LastName,
+
             };
         }
 
         public static Author ToDomainModel(this AuthorModel authorModel)
         {
-            return new Author
-            {
-                // TODO: map AuthorModel properties to corresponding Author props
+        return new Author
+        {
+            //map AuthorModel properties to corresponding Author props
+            Id = authorModel.Id,
+            BirthDate = authorModel.BirthDate,
+            FirstName = authorModel.FirstName,
+            LastName = authorModel.LastName,
             };
         }
 

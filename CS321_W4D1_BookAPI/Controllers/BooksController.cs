@@ -20,9 +20,10 @@ namespace CS321_W4D1_BookAPI.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            // TODO: convert domain models to apimodels
+            // convert domain models to apimodels
             var bookModels = _bookService
-                .GetAll();
+                .GetAll()
+                .ToApiModels(); //converts Books to BookModels
 
             return Ok(bookModels);
         }
@@ -33,9 +34,11 @@ namespace CS321_W4D1_BookAPI.Controllers
         public IActionResult Get(int id)
         {
             // TODO: convert domain model to apimodel
-            var book = _bookService.Get(id);
+            var book = _bookService
+                .Get(id)
+                .ToApiModel();
             if (book == null) return NotFound();
-            return Ok(book.ToApiModel());
+            return Ok(book);
         }
 
         // create a new book
@@ -45,9 +48,9 @@ namespace CS321_W4D1_BookAPI.Controllers
         {
             try
             {
-                // TODO: convert apimodel to domain model
+                // convert apimodel to domain model
                 // add the new book
-                _bookService.Add(newBook);
+                _bookService.Add(newBook.ToDomainModel());
             }
             catch (System.Exception ex)
             {
@@ -62,7 +65,7 @@ namespace CS321_W4D1_BookAPI.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] BookModel updatedBook)
         {
-            var book = _bookService.Update(updatedBook);
+            var book = _bookService.Update(updatedBook.ToDomainModel());
             if (book == null) return NotFound();
             return Ok(book.ToApiModel());
         }
