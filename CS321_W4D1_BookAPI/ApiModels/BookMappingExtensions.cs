@@ -19,6 +19,7 @@ namespace CS321_W4D1_BookAPI.ApiModels
                 Genre = book.Genre,
                 PublicationYear = book.PublicationYear,
                 AuthorId = book.AuthorId,
+                PublisherId = book.PublisherId,
                
                 Author = book.Author != null
                     ? book.Author.FirstName + " " + book.Author.LastName 
