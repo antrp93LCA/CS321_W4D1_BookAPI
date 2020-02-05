@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CS321_W4D1_BookAPI.Data;
 using CS321_W4D1_BookAPI.Models;
-
+using Microsoft.EntityFrameworkCore;
 
 namespace CS321_W4D1_BookAPI.Services
 {
@@ -12,7 +12,7 @@ namespace CS321_W4D1_BookAPI.Services
     {
         private readonly BookContext _bookContext;
 
-        private int _nextID = 2;
+        //private int _nextID = 2;
         public PublisherService(BookContext bookContext)
         {
             _bookContext = bookContext;
@@ -20,7 +20,7 @@ namespace CS321_W4D1_BookAPI.Services
 
         public Publisher Add(Publisher publisher)
         {
-            publisher.Id = _nextID++;
+            //publisher.Id = _nextID++;
 
             _bookContext.Publishers.Add(publisher);
             _bookContext.SaveChanges();
@@ -29,7 +29,9 @@ namespace CS321_W4D1_BookAPI.Services
 
         public Publisher Get(int publisherId)
         {
-            return _bookContext.Publishers.Find(publisherId);
+            return _bookContext.Publishers
+                .Include(p => p.Books)
+                .FirstOrDefault(p => p.Id == publisherId);
         }
 
         public IEnumerable<Publisher> GetAll()

@@ -10,11 +10,11 @@ namespace CS321_W4D1_BookAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PublisherController  : ControllerBase
+    public class PublishersController : ControllerBase
     {
         private readonly IPublisherService _publisherService;
 
-        public PublisherController(IPublisherService publisherService)
+        public PublishersController(IPublisherService publisherService)
         {
             _publisherService = publisherService;
         }
@@ -28,14 +28,14 @@ namespace CS321_W4D1_BookAPI.Controllers
             return Ok(publisherModels);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{publisherId}")]
         public IActionResult Get(int publisherId)
         {
             var publisher = _publisherService
                 .Get(publisherId)
                 .ToApiModel();
             if (publisher == null) return NotFound();
-            
+
             return Ok(publisher);
         }
 
@@ -64,6 +64,13 @@ namespace CS321_W4D1_BookAPI.Controllers
             return NoContent();
         }
 
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, [FromBody] PublisherModel updatedPublisher)
+        {
+            var publisher = _publisherService.Update(updatedPublisher.ToDomainModel());
+            if (publisher == null) return NotFound();
+            return Ok(publisher);
+        }
 
     }
 }
